@@ -1,14 +1,17 @@
 import React from "react";
 import "./MainPageDatVe.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { chonGhe } from "../redux/danhSachSlice";
+import { chonGhe, datVe } from "../redux/danhSachSlice";
 
 const MainPageDatVe = () => {
   const { gheData, gheDangDat } = useSelector((state) => state.danhSachSlice);
   console.log(gheDangDat);
   const dispatch = useDispatch();
-  const handleGhe = (ghe) => {
-    dispatch(chonGhe(ghe));
+  const handleGhe = () => {
+    dispatch(chonGhe());
+  };
+  const handleDatGhe = (ghe) => {
+    dispatch(datVe(ghe));
   };
   const total = gheDangDat.reduce((sum, ghe) => sum + ghe.gia, 0);
 
@@ -54,6 +57,12 @@ const MainPageDatVe = () => {
                   })}
                 </div>
               ))}
+              <button
+                onClick={handleDatGhe}
+                className="py-1 px-5 bg-green-500 text-xl text-white rounded"
+              >
+                Đặt vé
+              </button>
             </div>
             <div className="price">
               <h1>DANH SÁCH GHẾ BẠN CHỌN</h1>

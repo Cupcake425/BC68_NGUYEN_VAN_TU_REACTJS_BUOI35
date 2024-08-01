@@ -210,10 +210,22 @@ export const danhSachSlice = createSlice({
         state.gheDangDat.push(seat);
       }
     },
+    datVe: (state) => {
+      state.gheData.forEach((row) => {
+        row.danhSachGhe.forEach((ghe) => {
+          const index = state.gheDangDat.findIndex(
+            (item) => item.soGhe === ghe.soGhe
+          );
+          if (index != -1) {
+            ghe.daDat = true;
+          }
+        });
+      });
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { chonGhe } = danhSachSlice.actions;
+export const { chonGhe, datVe } = danhSachSlice.actions;
 
 export default danhSachSlice.reducer;
