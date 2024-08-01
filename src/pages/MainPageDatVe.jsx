@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MainPageDatVe.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { chonGhe, datVe } from "../redux/danhSachSlice";
 
 const MainPageDatVe = () => {
   const { gheData, gheDangDat } = useSelector((state) => state.danhSachSlice);
-  console.log(gheDangDat);
+  const [datVeComplete, setDatVeComplete] = useState(false);
   const dispatch = useDispatch();
-  const handleGhe = () => {
-    dispatch(chonGhe());
+  const handleGhe = (ghe) => {
+    if (!datVeComplete) {
+      dispatch(chonGhe(ghe));
+    }
   };
-  const handleDatGhe = (ghe) => {
-    dispatch(datVe(ghe));
+  const handleDatGhe = () => {
+    dispatch(datVe());
+    setDatVeComplete(true);
   };
   const total = gheDangDat.reduce((sum, ghe) => sum + ghe.gia, 0);
 
@@ -49,6 +52,7 @@ const MainPageDatVe = () => {
                           className={isSelected ? "gheDangChon" : "ghe"}
                           key={gheIndex}
                           onClick={() => handleGhe(ghe)}
+                          disabled={datVeComplete}
                         >
                           {ghe.soGhe}
                         </button>
@@ -60,6 +64,7 @@ const MainPageDatVe = () => {
               <button
                 onClick={handleDatGhe}
                 className="py-1 px-5 bg-green-500 text-xl text-white rounded"
+                disabled={datVeComplete}
               >
                 Đặt vé
               </button>
@@ -67,15 +72,15 @@ const MainPageDatVe = () => {
             <div className="price">
               <h1>DANH SÁCH GHẾ BẠN CHỌN</h1>
               <div className="ghe_info">
-                <button className="gheDuocChon"></button>
+                <button className="gheDuocChon" disabled></button>
                 <span>Ghế đã đặt</span>
               </div>
               <div className="ghe_info">
-                <button className="gheDangChon"></button>
+                <button className="gheDangChon" disabled></button>
                 <span>Ghế đang đặt</span>
               </div>
               <div className="ghe_info">
-                <button className="ghe"></button>
+                <button className="ghe" disabled></button>
                 <span>Ghế chưa chọn</span>
               </div>
               <table border={2} className="mt-5">
